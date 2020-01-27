@@ -15,5 +15,10 @@ Route::get('/', function () {
     return view('index');
 });
 
+//produtos
 Route::get('/produtos', 'ControladorProduto@index');
+
+//categorias
 Route::get('/categorias', 'ControladorCategoria@index');
+Route::get('/categorias/novo', 'ControladorCategoria@create');
+Route::post('/categorias', 'ControladorCategoria@store');
