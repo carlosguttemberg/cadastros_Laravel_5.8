@@ -2,8 +2,42 @@
 
 @section('body')
 
-    <h3>
-        Produtos
-    </h3>
+    <div class="card border">
+        <div class="card-body">
+            <h5 class="card-title">Cadastro de produtos</h5>
+            @if (isset($produtos) and count($produtos) > 0)
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome do Produto</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($produtos as $produto)
+                            <tr>
+                                <td>{{ $produto->id }}</td>
+                                <td>{{ $produto->nome }}</td>
+                                <td>{{ $produto->preco }}</td>
+                                <td>{{ $produto->estoque }}</td>
+                                <td>{{ $produto->categoria_id }}</td>
+                                <td>
+                                    <a href="/produtos/editar/{{$produto->id}}" class="btn btn-sm btn-primary">Editar</a>
+                                    <a href="/produtos/apagar/{{$produto->id}}" class="btn btn-sm btn-danger">Apagar</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
+            <div class="card-footer">
+                <a href="/produtos/novo" class="btn btn-sm btn-primary">Novo produto</a>
+            </div>
+        </div>
+    </div>
 
 @endsection
