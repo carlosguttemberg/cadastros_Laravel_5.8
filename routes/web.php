@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 //produtos
-Route::get('/produtos', 'ControladorProduto@index');
+Route::get('/produtos', 'ControladorProduto@indexView');
 // Route::get('/produtos/novo', 'ControladorProduto@create');
 // Route::post('/produtos', 'ControladorProduto@store');
 // Route::get('/produtos/apagar/{id}', 'ControladorProduto@destroy');

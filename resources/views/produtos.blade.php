@@ -83,6 +83,12 @@
      
 @section('javascript')
 <script type="text/javascript">
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': "{{csrf_token()}}"
+        }
+    });
     
     function novoProduto() {
         $('#id').val('');
@@ -102,8 +108,54 @@
         });
     }
 
+    function montarLinha(produto) {
+        var linha = "<tr>" +
+                        "<td>" + produto.id +"</td>" +
+                        "<td>" + produto.nome +"</td>" +
+                        "<td>" + produto.estoque +"</td>" +
+                        "<td>" + produto.preco +"</td>" +
+                        "<td>" + produto.categoria_id +"</td>" +
+                        "<td>" + "<button class='btn btn-sm btn-primary'> Editar </button>" + "&nbsp" +
+                                 "<button class='btn btn-sm btn-danger'> Apagar </button>"  +
+                        "</td>" +
+                    "</tr>";
+
+        return linha;
+    }
+
+    function carregarProdutos() {
+        $.getJSON('/api/produtos', function(data) { 
+            $('#tabelaProdutos tbody').html('');
+            for(i=0;i<data.length;i++) {
+                var linha = montarLinha(data[i]);
+                $('#tabelaProdutos tbody').append(linha);
+            }
+        });
+    }
+
+    function criarProduto() {
+        prod = { 
+            nomeProduto       : $("#nomeProduto").val(), 
+            precoProduto      : $("#precoProduto").val(), 
+            quantidadeProduto : $("#quantidadeProduto").val(), 
+            categoriaProduto  : $("#categoriaProduto").val() 
+        };
+        $.post("/api/produtos", prod, function(data) {
+            produto = JSON.parse(data);
+            linha = montarLinha(produto);
+            $('#tabelaProdutos>tbody').append(linha);            
+        });
+    }
+
+    $("#formProduto").submit(function (event) {
+        event.preventDefault();
+        criarProduto();
+        $("#dlgProdutos").modal("hide");
+    });
+
     $(function() {
         carregarCategorias();
+        carregarProdutos();
     })
 </script>
 @endsection

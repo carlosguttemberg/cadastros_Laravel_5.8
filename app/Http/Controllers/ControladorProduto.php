@@ -13,10 +13,16 @@ class ControladorProduto extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function indexView()
     {
         $produtos = Produto::all();
         return view('produtos', compact("produtos"));
+    }
+    
+    public function index()
+    {
+        $produtos = Produto::all();
+        return $produtos->toJson();
     }
 
     /**
@@ -40,11 +46,11 @@ class ControladorProduto extends Controller
     {
         $produto = new Produto();
         $produto->nome         = $request->input('nomeProduto');
-        $produto->estoque      = $request->input('estoqueProduto');
+        $produto->estoque      = $request->input('quantidadeProduto');
         $produto->preco        = $request->input('precoProduto');
-        $produto->categoria_id = $request->input('idCategoria');
+        $produto->categoria_id = $request->input('categoriaProduto');
         $produto->save();
-        return redirect("/produtos");
+        return json_encode($produto);
     }
 
     /**
