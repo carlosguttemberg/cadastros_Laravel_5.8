@@ -98,7 +98,9 @@ class ControladorProduto extends Controller
         $produto = Produto::find($id);
         if(isset($produto)){
             $produto->delete();
+            return response('ok', 200);
         }
-        return redirect("/produtos");
+
+        return response('Produto não encrontrado', 404);
     }
 }
