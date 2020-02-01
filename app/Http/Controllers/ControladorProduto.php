@@ -61,7 +61,12 @@ class ControladorProduto extends Controller
      */
     public function show($id)
     {
-        //
+        $produto = Produto::find($id);
+        if(isset($produto)){
+            return json_encode($produto);
+        }
+
+        return response('Produto não encrontrado', 404);
     }
 
     /**
@@ -84,7 +89,17 @@ class ControladorProduto extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $produto = Produto::find($id);
+        if(isset($produto)){
+            $produto->nome         = $request->input('nomeProduto');
+            $produto->estoque      = $request->input('quantidadeProduto');
+            $produto->preco        = $request->input('precoProduto');
+            $produto->categoria_id = $request->input('categoriaProduto');
+            $produto->save();
+            return json_encode($produto);
+        }
+
+        return response('Produto não encrontrado', 404);
     }
 
     /**
